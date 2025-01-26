@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Runtime: provided.al2023
+    Architectures:
+      - arm64
+    Handler: cmd/main/main
+    MemorySize: 512
+    Timeout: 90
+    AutoPublishAlias: live
+
+Resources:
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: go-aws-lambda-sample-role
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: go-aws-lambda-sample
+      Role: !GetAtt "LambdaRole.Arn"
+      CodeUri: src/app
+    Metadata:       
+      BuildMethod: makefile

@@ -1,5 +1,3 @@
-// このプログラムでは、API Serverを立てる
-//　このAPI Serverでは、endpointに対してクエリパラメータvalueの値を２倍して返す。
 package main
 
 import (
