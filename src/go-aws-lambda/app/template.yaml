@@ -3,10 +3,10 @@ Transform: AWS::Serverless-2016-10-31
 
 Globals:
   Function:
-    Runtime: provided.al2
+    Runtime: provided.al2023
     Architectures:
       - arm64
-    Handler: bootstrap
+    Handler: cmd/main/main
     MemorySize: 512
     Timeout: 90
     AutoPublishAlias: live
@@ -15,7 +15,7 @@ Resources:
   LambdaRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: go-aws-lambda-sample
+      RoleName: go-aws-lambda-sample-role
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       AssumeRolePolicyDocument:
@@ -33,6 +33,6 @@ Resources:
     Properties:
       FunctionName: go-aws-lambda-sample
       Role: !GetAtt "LambdaRole.Arn"
-      CodeUri: src/
+      CodeUri: src/app
     Metadata:       
       BuildMethod: makefile
